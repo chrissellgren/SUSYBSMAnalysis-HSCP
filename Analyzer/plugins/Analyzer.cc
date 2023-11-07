@@ -93,6 +93,7 @@
 // - 47p5: Change so the trigger beta and eta are used for the trig syst
 // - 47p6: Temp to check the most conservative timings at L1 of DT / CSC
 // - 47p7: Back to 47p5
+// - 47p8: Adding new hist to exclude 1x1 clusters
 
 // v25 Dylan
 // - add EoP in the ntuple
@@ -2538,6 +2539,9 @@ void Analyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) 
         auto clustSizeX = pixelCluster->sizeX();
         auto clustSizeY = pixelCluster->sizeY();
         auto clustCharge = pixelCluster->charge();
+        // add for excluding 1x1 clusters
+        bool is1x1 = false;
+        if (clustSizeX == 1 || clustSizeY ==1 ) is1x1 = true;
         
         auto pixelNormCharge = um2cmUnit * dedxHits->charge(i) / dedxHits->pathlength(i);
         
@@ -3268,6 +3272,8 @@ void Analyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) 
       tuple->BefPreS_ProbQ->Fill(1 - probQonTrack, eventWeight_);
       tuple->BefPreS_ProbXY->Fill(probXYonTrack, eventWeight_);
       tuple->BefPreS_ProbQNoL1->Fill(1 - probQonTrackNoL1, eventWeight_);
+      // insert my single clusters variable
+      if (!is1x1) tuple->BefPreS_ProbQNoL1_Nsingleclusters->Fill(1 - probQonTrackNoL1, eventWeight_);
       tuple->BefPreS_ProbXYNoL1->Fill(probXYonTrackNoL1, eventWeight_);
       if (tof) {
         tuple->BefPreS_nDof->Fill(tof->nDof(), eventWeight_);

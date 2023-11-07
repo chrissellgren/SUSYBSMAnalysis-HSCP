@@ -886,6 +886,7 @@ void TupleMaker::initializeTuple(Tuple *&tuple,
     tuple->BefPreS_ProbQ = dir.make<TH1F>("BefPreS_ProbQ", ";F_{i}^{pixels};Tracks / bin", 100, 0, 1);
     tuple->BefPreS_ProbXY = dir.make<TH1F>("BefPreS_ProbXY", ";Prob_{XY} (pixels);Tracks / bin", 100, 0, 1);
     tuple->BefPreS_ProbQNoL1 = dir.make<TH1F>("BefPreS_ProbQNoL1", ";F_{i}^{pixels};Tracks / bin", 100, 0, 1);
+    tuple->BefPreS_ProbQNoL1_Nsingleclusters = dir.make<TH1F>("BefPreS_ProbQNoL1_Nsingleclusters", ";F_{i}^{pixels};Tracks / bin", 100, 0, 1);
     tuple->BefPreS_ProbXYNoL1 = dir.make<TH1F>("BefPreS_ProbXYNoL1", ";Prob_{XY} (pixels, no-L1);Tracks / bin", 100, 0, 1);
     tuple->BefPreS_MassErr = dir.make<TH1F>("BefPreS_MassErr", ";MassErr/Mass;Tracks / bin", 50, 0., 10.);
     tuple->BefPreS_ProbQVsIas = dir.make<TH2F>("BefPreS_ProbQVsIas", ";F_{i}^{pixels};G_{i}^{strips};Tracks / bin", 100, 0.0, 1.0, 100, 0.0, 1.0);
