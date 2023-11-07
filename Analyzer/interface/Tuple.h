@@ -531,6 +531,7 @@ struct Tuple {
   TH1F* BefPreS_ProbQ;
   TH1F* BefPreS_ProbXY;
   TH1F* BefPreS_ProbQNoL1;
+  TH1F* BefPreS_ProbQNoL1_Nsingleclusters;
   TH1F* BefPreS_ProbXYNoL1;
   TH1F* BefPreS_MassErr;
   TH2F* BefPreS_ProbQVsIas;
