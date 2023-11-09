@@ -2468,10 +2468,11 @@ void Analyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) 
     // Include probQonTrack, probXYonTrack, probQonTrackNoL1, probXYonTrackNoL1 into one array
     float pixelProbs[4] = {0.0,0.0,0.0,0.0};
     int numRecHitsQ = 0, numRecHitsXY = 0;
-    int numRecHitsQNoL1 = 0, numRecHitsXYNoL1 = 0;
+    int numRecHitsQNoL1 = 0, numRecHitsQNoL1No1x1 = 0, numRecHitsXYNoL1 = 0;
     float probQonTrackWMulti = 1;
     float probXYonTrackWMulti = 1;
     float probQonTrackWMultiNoL1 = 1;
+    float probQonTrackWMultiNoL1No1x1 = 1;
     float probXYonTrackWMultiNoL1 = 1;
     
     float ratioCleanAndAllStripsClu = 0.0;
@@ -2609,6 +2610,9 @@ void Analyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) 
             numRecHitsQNoL1++;
             // Calculate alpha term needed for the combination
             probQonTrackWMultiNoL1 *= probQNoL1;
+            if (!is1x1) {
+              numRecHitsQNoL1No1x1++;
+              probQonTrackWMultiNoL1No1x1 *= prob;}
           }
           if (!specInCPE && probQ < 0.8 && probXYNoL1 > 0.f) {
             numRecHitsXYNoL1++;
@@ -2672,10 +2676,12 @@ void Analyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) 
     float probQonTrack = -1.f;
     float probXYonTrack = -1.f;
     float probQonTrackNoL1 = -1.f;
+    float probQonTrackNoL1No1x1 = -1.f;
     float probXYonTrackNoL1 = -1.f;
     probQonTrack = combineProbs(probQonTrackWMulti, numRecHitsQ);
     probXYonTrack = combineProbs(probXYonTrackWMulti, numRecHitsXY);
     probQonTrackNoL1 = combineProbs(probQonTrackWMultiNoL1, numRecHitsQNoL1);
+    probQonTrackNoL1No1x1 = combineProbs(probQonTrackWMultiNoL1No1x1, numRecHitsQNoL1No1x1);
     probXYonTrackNoL1 = combineProbs(probXYonTrackWMultiNoL1, numRecHitsXYNoL1);
     
     // Ratios of cleaned hits and all hits
@@ -3270,10 +3276,10 @@ void Analyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) 
       tuple->BefPreS_EtaVsNBH->Fill(track->eta(), track->found() - numDeDxHits, eventWeight_);
       
       tuple->BefPreS_ProbQ->Fill(1 - probQonTrack, eventWeight_);
-      tuple->BefPreS_ProbXY->Fill(probXYonTrack, eventWeight_);
       tuple->BefPreS_ProbQNoL1->Fill(1 - probQonTrackNoL1, eventWeight_);
+      tuple->BefPreS_ProbXY->Fill(probXYonTrack, eventWeight_);
       // insert my single clusters variable
-      if (!is1x1) tuple->BefPreS_ProbQNoL1_Nsingleclusters->Fill(1 - probQonTrackNoL1, eventWeight_);
+      if (!is1x1) tuple->BefPreS_ProbQNoL1_Nsingleclusters->Fill(1 - probQonTrackNoL1No1x1, eventWeight_);
       tuple->BefPreS_ProbXYNoL1->Fill(probXYonTrackNoL1, eventWeight_);
       if (tof) {
         tuple->BefPreS_nDof->Fill(tof->nDof(), eventWeight_);
