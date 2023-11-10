@@ -2542,7 +2542,7 @@ void Analyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) 
         auto clustCharge = pixelCluster->charge();
         // add for excluding 1x1 clusters
         bool is1x1 = false;
-        if (clustSizeX == 1 || clustSizeY ==1 ) is1x1 = true;
+        if (clustSizeX == 1 && clustSizeY ==1 ) is1x1 = true;
         
         auto pixelNormCharge = um2cmUnit * dedxHits->charge(i) / dedxHits->pathlength(i);
         
