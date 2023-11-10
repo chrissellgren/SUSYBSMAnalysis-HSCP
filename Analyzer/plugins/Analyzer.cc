@@ -3279,7 +3279,7 @@ void Analyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) 
       tuple->BefPreS_ProbQNoL1->Fill(1 - probQonTrackNoL1, eventWeight_);
       tuple->BefPreS_ProbXY->Fill(probXYonTrack, eventWeight_);
       // insert my single clusters variable
-      if (!is1x1) tuple->BefPreS_ProbQNoL1_Nsingleclusters->Fill(1 - probQonTrackNoL1No1x1, eventWeight_);
+      tuple->BefPreS_ProbQNoL1_Nsingleclusters->Fill(1 - probQonTrackNoL1No1x1, eventWeight_);
       tuple->BefPreS_ProbXYNoL1->Fill(probXYonTrackNoL1, eventWeight_);
       if (tof) {
         tuple->BefPreS_nDof->Fill(tof->nDof(), eventWeight_);
